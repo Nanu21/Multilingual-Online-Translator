@@ -5,7 +5,7 @@ import os
 from bs4 import BeautifulSoup
 
 
-# print("""Hello, you're welcome to the translator. Translator supports:
+# Available Languages
 # 1. Arabic
 # 2. German
 # 3. English
@@ -44,6 +44,7 @@ switcher = {
         13: "turkish"
     }
 
+#creating a file on the system in which the input from the site would be stored
 file_name = f'{word}.txt'
 my_file = open(file_name, 'w+', encoding='utf-8')
 s = requests.Session()
@@ -57,17 +58,15 @@ def translator(link, translation_language):
 
     if r:
         soup = BeautifulSoup(r.content, 'html.parser')
-        # print(soup)
 
         word_container = soup.find(id="translations-content")
-        # print(word_container)
+        
         words = word_container.find_all('a')
         translated_word = [word.text.strip() for word in words]
 
         example_container = soup.find(id="examples-content")
-        # print(example_container)
+
         examples = example_container.find_all('span', class_="text")
-        # print(examples)
         sentences = [(example.text.strip()) for example in examples]
 
         if translator_language == 'all':
